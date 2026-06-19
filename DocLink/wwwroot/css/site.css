@@ -1,0 +1,56 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+.receipt-card {
+    border: none;
+}
+
+@media print {
+    header, footer, .d-flex, .btn, .navbar {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .receipt-card {
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .card-body {
+        padding: 1rem !important;
+    }
+
+    #receipt {
+        margin: 0;
+    }
+}
