@@ -26,7 +26,7 @@ public class DocumentService : IDocumentService
             CustomerName = model.CustomerName,
             PhoneNumber = model.PhoneNumber,
             Amount = model.Amount,
-            Date = model.Date,
+            Date = DateTime.SpecifyKind(model.Date, DateTimeKind.Utc),
             Status = "Created",
             PublicToken = _tokenService.GenerateToken(),
             CreatedAt = DateTime.UtcNow,
