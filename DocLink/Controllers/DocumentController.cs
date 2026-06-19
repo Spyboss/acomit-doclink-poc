@@ -8,12 +8,12 @@ namespace DocLink.Controllers;
 public class DocumentController : Controller
 {
     private readonly IDocumentService _documentService;
-    private readonly ISmsService _smsService;
+    private readonly IMessagingService _messagingService;
 
-    public DocumentController(IDocumentService documentService, ISmsService smsService)
+    public DocumentController(IDocumentService documentService, IMessagingService messagingService)
     {
         _documentService = documentService;
-        _smsService = smsService;
+        _messagingService = messagingService;
     }
 
     [HttpGet]
@@ -38,7 +38,7 @@ public class DocumentController : Controller
         var publicUrl = $"{Request.Scheme}://{Request.Host}/r/{document.PublicToken}";
         var message = $"Your {document.DocumentType} is ready.\n\nDocLink\n{publicUrl}";
 
-        await _smsService.SendAsync(document.PhoneNumber, message);
+        await _messagingService.SendAsync(document.PhoneNumber, message);
 
         TempData["PublicToken"] = document.PublicToken;
         TempData["DocumentNumber"] = document.DocumentNumber;

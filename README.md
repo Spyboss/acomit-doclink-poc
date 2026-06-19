@@ -29,7 +29,7 @@ Open `http://localhost:5088` in your browser.
 - **Receipt creation form** with validation (customer name, phone, invoice, amount, date)
 - **Public sharing** via cryptographically random token URLs (`/r/{token}`)
 - **PDF generation** with QuestPDF — branded A4 receipts with company header and line items
-- **SMS dispatch** (mock) — logs to console; swappable to Twilio via `ISmsService`
+- **WhatsApp dispatch** (mock) — logs to console; swappable to Meta Cloud API via `IMessagingService`
 - **Rate limiting** — 5 req/min for creation, 30 req/min for public views
 - **Auto-migrations** — database schema applied on startup
 - **Health check** endpoint at `/health`
@@ -44,7 +44,7 @@ Open `http://localhost:5088` in your browser.
 | Database | PostgreSQL (via Npgsql 8.0.11) |
 | PDF | QuestPDF 2026.6 (Community) |
 | Frontend | Bootstrap 5, jQuery 3 |
-| SMS | Mock (ILogger) — pluggable via `ISmsService` |
+| Messaging | Mock (ILogger) — pluggable via `IMessagingService` (WhatsApp Cloud API) |
 
 ## Project Structure
 
@@ -98,7 +98,7 @@ acomit-doclink-poc/
 | [Local Dev](docs/local-dev.md) | Setup guide for local development |
 | [Deployment](docs/deployment.md) | Railway + Supabase deployment guide |
 | [API Reference](docs/api-reference.md) | All routes, rate limits, request/response |
-| [SMS Providers](docs/sms-providers.md) | Twilio pricing/limits + local & international alternatives |
+| [Messaging Providers](docs/messaging-providers.md) | WhatsApp Cloud API, local LK providers, pricing & setup |
 
 ## Routes
 

@@ -24,7 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IPdfService, PdfService>();
-builder.Services.AddScoped<ISmsService, MockSmsService>();
+builder.Services.AddScoped<IMessagingService, MockMessagingService>();
+builder.Services.AddHttpClient<WhatsAppCloudApiService>();
 
 builder.Services.AddRateLimiter(options =>
 {

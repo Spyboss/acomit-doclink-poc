@@ -103,30 +103,30 @@ dotnet ef database update PreviousMigrationName
 dotnet watch run
 ```
 
-## Testing SMS
+## Testing WhatsApp
 
-The `MockSmsService` logs SMS messages to the console. To see dispatched SMS:
+The `MockMessagingService` logs WhatsApp messages to the console. To see dispatched messages:
 
 ```bash
 dotnet run
 # Watch the console output when you submit the form:
-# --- SMS Dispatch ---
+# --- WhatsApp Message Dispatch ---
 # To: +9471XXXXXXX
 # Message: Your Receipt is ready.\n\nDocLink\nhttp://...
-# --------------------
+# ---------------------------------
 ```
 
-To test with a real SMS provider, see the [SMS Provider Comparison](sms-providers.md) guide. It covers:
+To send real WhatsApp messages, see the [Messaging Provider Guide](messaging-providers.md). It covers:
 
-- **Twilio** — full implementation code, pricing ($0.42/msg to Sri Lanka), rate limits (1 msg/sec per number)
-- **Local Sri Lankan providers** — Text.lk (0.64 LKR/msg), FITSMS, Notify.lk, SMSlenz, etc.
-- **International alternatives** — Plivo, Vonage, MessageBird, AWS SNS
+- **Meta WhatsApp Cloud API** — free for utility/receipt messages, full C# implementation included
+- **Local Sri Lankan providers** — Bloomwire, Go4whatsup, Notify.lk, Text.lk
+- **International alternatives** — Twilio WhatsApp, MessageBird, Vonage, WATI
 
 Example swap in `Program.cs`:
 
 ```csharp
-// builder.Services.AddScoped<ISmsService, MockSmsService>();
-builder.Services.AddScoped<ISmsService, TwilioSmsService>();
+// builder.Services.AddScoped<IMessagingService, MockMessagingService>();
+builder.Services.AddScoped<IMessagingService, WhatsAppCloudApiService>();
 ```
 
 ## Environment Variables

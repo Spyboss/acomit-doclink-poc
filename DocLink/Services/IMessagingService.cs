@@ -1,6 +1,7 @@
 namespace DocLink.Services;
 
-public interface ISmsService
+public interface IMessagingService
 {
     Task SendAsync(string phoneNumber, string message);
+    string Channel => "WhatsApp";
 }

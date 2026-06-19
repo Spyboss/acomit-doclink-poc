@@ -142,11 +142,11 @@ EF Core migrations run **automatically on startup** via `db.Database.Migrate()` 
 
 > **Warning:** Never commit the connection string to version control. Always use environment variables in production.
 
-## SMS Providers
+## WhatsApp / Messaging Providers
 
-For real SMS dispatch, see the [SMS Provider Comparison](sms-providers.md) guide covering:
+DocLink uses **WhatsApp** via `IMessagingService`. See the [Messaging Provider Guide](messaging-providers.md) covering:
 
-- **Twilio** — $0.42/msg to Sri Lanka, 1 msg/sec per long code
-- **Local providers** — Text.lk (0.64 LKR/msg), FITSMS (0.68 LKR/msg), Notify.lk, etc.
-- **International alternatives** — Plivo, Vonage, MessageBird, AWS SNS
+- **Meta Cloud API** — free for utility/receipt conversations, C# implementation included
+- **Local Sri Lanka providers** — Bloomwire, Go4whatsup (Sinhala/Tamil support), Notify.lk
+- **International alternatives** — Twilio WhatsApp, MessageBird, Vonage, WATI
 - Full implementation guide with code samples

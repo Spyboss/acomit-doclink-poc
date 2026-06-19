@@ -16,8 +16,8 @@ DocLink is a monolithic ASP.NET Core MVC application with server-rendered Razor 
 └──────────────┘            │  │  ├─────┤ │  │Service    │  │   │
                             │  │  │Public │ │  ├───────────┤  │   │
 ┌──────────────┐            │  │  │.cs    │ │  │PdfService │  │   │
-│   SMS App    │   (mock)   │  │  ├─────┤ │  ├───────────┤  │   │
-│  (Customer)  │ ◄──────────┤  │  │Home  │ │  │SmsService │  │   │
+│   WhatsApp  │   (mock)   │  │  ├─────┤ │  ├───────────┤  │   │
+│  (Customer)  │ ◄──────────┤  │  │Home  │ │  │Messaging  │  │   │
 └──────────────┘            │  │  │.cs   │ │  └───────────┘  │   │
                             │  └──┴─────┘ ┘                  │   │
                             │         │                       │   │
@@ -65,7 +65,8 @@ Five services, each backed by an interface for testability:
 | `TokenService` | `ITokenService` | Generate cryptographically random tokens (`RandomNumberGenerator.GetString`) |
 | `DocumentService` | `IDocumentService` | Create documents, look up by public token |
 | `PdfService` | `IPdfService` | Generate A4 PDF receipts using QuestPDF |
-| `MockSmsService` | `ISmsService` | Mock SMS dispatch (logs to `ILogger`) |
+| `MockMessagingService` | `IMessagingService` | Mock WhatsApp dispatch (logs to `ILogger`) |
+| `WhatsAppCloudApiService` | `IMessagingService` | Real Meta Cloud API integration |
 
 ### 4. Data Layer
 
@@ -86,19 +87,19 @@ Five services, each backed by an interface for testability:
        ├─► DocumentService.CreateDocumentAsync(model)
        │   ├─► TokenService.GenerateToken() → random 10-char string
        │   └─► Saves Document to PostgreSQL via EF Core
-       ├─► Constructs public URL + SMS message
-       ├─► SmsService.SendAsync(phone, message) → logs to console
+       ├─► Constructs public URL + WhatsApp message
+       ├─► MessagingService.SendAsync(phone, message) → logs WhatsApp to console
        └─► Redirects to /Document/Success
 
 3. GET /Document/Success
    └─► DocumentController.Success()
-       └─► Shows success page with public URL + SMS preview
+       └─► Shows success page with public URL + WhatsApp preview
 ```
 
 ## Request Flow: View Receipt
 
 ```
-1. Customer opens /r/{token} (via SMS link)
+1. Customer opens /r/{token} (via WhatsApp link)
    └─► PublicController.Index(token)
        ├─► DocumentService.GetByTokenAsync(token)
        ├─► If null → 404

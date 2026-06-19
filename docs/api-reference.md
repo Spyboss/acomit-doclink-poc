@@ -49,7 +49,7 @@ Shows the success page after a receipt is created.
 
 **Query params:** None (data passed via `TempData`)
 
-**Response:** HTML page with receipt details, public URL, PDF download link, and SMS preview.
+**Response:** HTML page with receipt details, public URL, PDF download link, and WhatsApp preview.
 
 ### GET `/r/{token}`
 
@@ -134,9 +134,9 @@ Status: 429 Too Many Requests
 
 In production, the generic `/Home/Error` page is shown. In development, detailed error information is returned.
 
-## SMS Message Format
+## WhatsApp Message Format
 
-When a receipt is created, the following SMS message is dispatched:
+When a receipt is created, the following WhatsApp message is dispatched:
 
 ```
 Your {DocumentType} is ready.
@@ -154,4 +154,4 @@ DocLink
 https://acomit-doclink-poc-production.up.railway.app/r/aB3xK9mP2Q
 ```
 
-Currently dispatched via `MockSmsService` (logs to console only).
+Currently dispatched via `MockMessagingService` (logs to console only). In production, use `WhatsAppCloudApiService` with Meta Cloud API credentials.

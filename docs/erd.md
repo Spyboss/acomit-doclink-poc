@@ -36,7 +36,7 @@ Represents a single receipt or document issued to a customer. Each document is i
 | `DocumentType` | `DocumentType` (enum → int) | Currently only `Receipt = 1` |
 | `DocumentNumber` | `string(100)` | Invoice/receipt number from the form |
 | `CustomerName` | `string(200)` | Customer's full name |
-| `PhoneNumber` | `string(50)` | Phone number for SMS delivery |
+| `PhoneNumber` | `string(50)` | Phone number for WhatsApp delivery |
 | `Amount` | `decimal(18,2)` | Receipt total amount |
 | `Date` | `DateTime` (UTC) | Receipt date (normalized to UTC) |
 | `Status` | `string(50)` | Default `"Created"` |
