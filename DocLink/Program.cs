@@ -71,4 +71,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Document}/{action=Create}/{id?}");
 
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+
 app.Run();
