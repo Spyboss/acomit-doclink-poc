@@ -96,8 +96,9 @@ acomit-doclink-poc/
 | [Architecture](docs/architecture.md) | System design, layers, data flow |
 | [ERD](docs/erd.md) | Database schema and entity relationships |
 | [Local Dev](docs/local-dev.md) | Setup guide for local development |
-| [Deployment](docs/deployment.md) | Railway deployment guide |
+| [Deployment](docs/deployment.md) | Railway + Supabase deployment guide |
 | [API Reference](docs/api-reference.md) | All routes, rate limits, request/response |
+| [SMS Providers](docs/sms-providers.md) | Twilio pricing/limits + local & international alternatives |
 
 ## Routes
 

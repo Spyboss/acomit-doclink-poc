@@ -100,27 +100,53 @@ docker run -d -p 8080:8080 \
   doclink
 ```
 
-## Database
+## Supabase Setup
 
-The app uses **Supabase PostgreSQL** in production. The connection string format:
+This app uses **Supabase** as its PostgreSQL provider. To set up your own:
+
+### 1. Create a Supabase project
+
+1. Go to [supabase.com](https://supabase.com) and sign in
+2. Click **New Project**
+3. Enter a name (e.g., `doclink`)
+4. Set a **database password** (save this securely — it cannot be recovered)
+5. Choose a **region** closest to your users (e.g., `ap-northeast-2` for Seoul, nearby for Sri Lanka)
+6. Click **Create new project** (takes 1–2 minutes to provision)
+
+### 2. Get the connection string
+
+1. In the Supabase dashboard, go to **Project Settings → Database**
+2. Under **Connection string**, find the **URI** or **Params** tab
+3. Copy the connection string. There are two pooler modes:
+
+| Mode | Port | Use Case |
+|------|------|----------|
+| **Transaction** (pooler) | 6543 | For serverless/runtime queries (short-lived connections) |
+| **Session** / **Direct** | 5432 | For migrations, EF Core design-time tools |
+
+For EF Core (this project), use **Session mode on port 5432**:
 
 ```
-Host=<host>.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.<project>;Password=<password>;SSL Mode=Require;Trust Server Certificate=true;
+Host=aws-0-{region}.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.{project_ref};Password={password};SSL Mode=Require;Trust Server Certificate=true;
 ```
 
-Migrations run **automatically on startup**. No manual migration steps are needed.
+> **Note:** As of Feb 2025, port 6543 is transaction-mode only and may cause migration timeouts with EF Core. Always use port 5432 for `dotnet ef` commands and runtime if you encounter issues.
 
-> **Warning:** Do not store the connection string in `appsettings.json` or version control. Always use environment variables in production.
+### 3. Configure Railway
 
-## Switching to a Real SMS Provider
+Set the connection string as the Railway env var `ConnectionStrings__DefaultConnection` (see Environment Variables above).
 
-The app currently uses `MockSmsService` (logs to console). To send real SMS:
+### 4. Migrations
 
-1. Add your SMS provider's NuGet package (e.g., `Twilio`)
-2. Create a new class implementing `ISmsService`
-3. In `Program.cs`, swap the DI registration:
-   ```csharp
-   // builder.Services.AddScoped<ISmsService, MockSmsService>();
-   builder.Services.AddScoped<ISmsService, TwilioSmsService>();
-   ```
-4. Add provider credentials as environment variables
+EF Core migrations run **automatically on startup** via `db.Database.Migrate()` in `Program.cs`. No manual migration steps on deploy.
+
+> **Warning:** Never commit the connection string to version control. Always use environment variables in production.
+
+## SMS Providers
+
+For real SMS dispatch, see the [SMS Provider Comparison](sms-providers.md) guide covering:
+
+- **Twilio** — $0.42/msg to Sri Lanka, 1 msg/sec per long code
+- **Local providers** — Text.lk (0.64 LKR/msg), FITSMS (0.68 LKR/msg), Notify.lk, etc.
+- **International alternatives** — Plivo, Vonage, MessageBird, AWS SNS
+- Full implementation guide with code samples

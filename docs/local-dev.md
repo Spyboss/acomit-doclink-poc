@@ -34,11 +34,28 @@ Or create an `appsettings.Production.json` file:
 }
 ```
 
-For **Supabase** (remote PostgreSQL), use:
+### Using Supabase (Remote PostgreSQL)
+
+Supabase provides a managed PostgreSQL database that works well with this project.
+
+**Setup:**
+1. Create a free project at [supabase.com](https://supabase.com)
+2. Go to **Project Settings → Database → Connection string**
+3. Copy the **Session pooler** string (port 5432, not port 6543)
+
+**Connection string format:**
+
+```
+Host=aws-0-{region}.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.{project_ref};Password={password};SSL Mode=Require;Trust Server Certificate=true;
+```
+
+**Set it:**
 
 ```bash
-export ConnectionStrings__DefaultConnection="Host=aws-1-ap-northeast-2.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.YOUR_PROJECT;Password=YOUR_PASSWORD;SSL Mode=Require;Trust Server Certificate=true;"
+export ConnectionStrings__DefaultConnection="Host=aws-0-ap-northeast-2.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.qoyeqfwxiofcvwdirwrg;Password=YOUR_PASSWORD;SSL Mode=Require;Trust Server Certificate=true;"
 ```
+
+> **Important:** Use port **5432** (session mode) not 6543 (transaction mode). EF Core migrations and design-time commands will time out on port 6543.
 
 ### 3. Restore dependencies
 
@@ -99,7 +116,13 @@ dotnet run
 # --------------------
 ```
 
-To test with a real SMS provider, implement `ISmsService` (e.g., with Twilio) and swap the DI registration in `Program.cs`:
+To test with a real SMS provider, see the [SMS Provider Comparison](sms-providers.md) guide. It covers:
+
+- **Twilio** — full implementation code, pricing ($0.42/msg to Sri Lanka), rate limits (1 msg/sec per number)
+- **Local Sri Lankan providers** — Text.lk (0.64 LKR/msg), FITSMS, Notify.lk, SMSlenz, etc.
+- **International alternatives** — Plivo, Vonage, MessageBird, AWS SNS
+
+Example swap in `Program.cs`:
 
 ```csharp
 // builder.Services.AddScoped<ISmsService, MockSmsService>();
