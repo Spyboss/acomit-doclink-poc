@@ -43,6 +43,7 @@ public class DocumentController : Controller
         TempData["PublicToken"] = document.PublicToken;
         TempData["DocumentNumber"] = document.DocumentNumber;
         TempData["CustomerName"] = document.CustomerName;
+        TempData["PhoneNumber"] = document.PhoneNumber;
 
         return RedirectToAction(nameof(Success));
     }
@@ -57,6 +58,7 @@ public class DocumentController : Controller
         ViewData["PdfUrl"] = $"{Request.Scheme}://{Request.Host}/r/{token}/pdf";
         ViewData["DocumentNumber"] = TempData["DocumentNumber"];
         ViewData["CustomerName"] = TempData["CustomerName"];
+        ViewData["PhoneNumber"] = TempData["PhoneNumber"];
 
         return View();
     }
