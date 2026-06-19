@@ -1,7 +1,6 @@
 @{
     var publicUrl = ViewData["PublicUrl"] as string;
     var pdfUrl = ViewData["PdfUrl"] as string;
-    var title = ViewData["Title"] as string;
     var documentNumber = ViewData["DocumentNumber"] as string;
     var customerName = ViewData["CustomerName"] as string;
 }
@@ -16,7 +15,7 @@
 
                 <h2 class="card-title text-success mb-3">Receipt Created Successfully</h2>
 
-                <p class="text-muted mb-1"><strong>@title</strong> #@documentNumber</p>
+                <p class="text-muted mb-1"><strong>Receipt</strong> #@documentNumber</p>
                 <p class="text-muted mb-4">for <strong>@customerName</strong></p>
 
                 <div class="alert alert-info">
@@ -26,8 +25,8 @@
 
                 <div class="alert alert-secondary text-start">
                     <p class="mb-2 fw-semibold">SMS Dispatch Log</p>
-                    <pre class="mb-0 small">To: @ViewData["PhoneNumber"]
-Your @title is ready.
+                    <pre class="mb-0 small">To: <span id="phoneDisplay"></span>
+Your Receipt is ready.
 
 DocLink
 @publicUrl</pre>
@@ -42,3 +41,10 @@ DocLink
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        var phone = document.getElementById('phoneDisplay');
+        if (phone) phone.textContent = '@ViewData["PhoneNumber"]';
+    </script>
+}

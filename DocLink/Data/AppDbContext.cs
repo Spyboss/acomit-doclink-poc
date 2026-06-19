@@ -17,6 +17,9 @@ public class AppDbContext : DbContext
 
             entity.HasIndex(e => e.PublicToken).IsUnique();
 
+            entity.Property(e => e.DocumentType)
+                  .HasConversion<int>();
+
             entity.Property(e => e.Amount).HasColumnType("decimal(18,2)");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("NOW()");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("NOW()");

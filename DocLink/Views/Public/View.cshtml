@@ -11,7 +11,7 @@
                 <div class="row mb-4">
                     <div class="col-6">
                         <p class="text-muted mb-1">Document</p>
-                        <p class="fw-semibold mb-0">@Model.Title</p>
+                        <p class="fw-semibold mb-0">@Model.DocumentType</p>
                     </div>
                     <div class="col-6 text-end">
                         <p class="text-muted mb-1">Number</p>
@@ -25,18 +25,10 @@
                     <div class="col-6">
                         <p class="text-muted mb-1">Customer</p>
                         <p class="fw-semibold mb-0">@Model.CustomerName</p>
-                        @if (!string.IsNullOrEmpty(Model.Address))
-                        {
-                            <p class="mb-0 small">@Model.Address</p>
-                        }
                     </div>
                     <div class="col-6 text-end">
                         <p class="text-muted mb-1">Date</p>
                         <p class="fw-semibold mb-0">@Model.Date.ToString("MMMM dd, yyyy")</p>
-                        @if (!string.IsNullOrEmpty(Model.ReferenceNumber))
-                        {
-                            <p class="mb-0 small text-muted">Ref: @Model.ReferenceNumber</p>
-                        }
                     </div>
                 </div>
 
@@ -54,7 +46,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@(Model.Notes ?? Model.Title)</td>
+                                    <td>@Model.DocumentType</td>
                                     <td class="text-center">1</td>
                                     <td class="text-end fw-bold">@Model.Amount.ToString("N2")</td>
                                 </tr>
@@ -68,17 +60,6 @@
                         <h4 class="fw-bold">Total: @Model.Amount.ToString("N2")</h4>
                     </div>
                 </div>
-
-                @if (!string.IsNullOrEmpty(Model.Notes))
-                {
-                    <hr />
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <p class="text-muted mb-1">Notes</p>
-                            <p class="mb-0">@Model.Notes</p>
-                        </div>
-                    </div>
-                }
 
                 <hr />
 

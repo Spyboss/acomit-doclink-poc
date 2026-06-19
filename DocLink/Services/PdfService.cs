@@ -56,7 +56,7 @@ public class PdfService : IPdfService
 
                 row.RelativeItem().AlignRight().Column(col =>
                 {
-                    col.Item().Text(document.Title).SemiBold().FontSize(18);
+                    col.Item().Text(document.DocumentType.ToString()).SemiBold().FontSize(18);
                     col.Item().Text($"#{document.DocumentNumber}").FontSize(12);
                 });
             });
@@ -77,16 +77,11 @@ public class PdfService : IPdfService
                 {
                     col.Item().Text("Bill To:").SemiBold().FontSize(11);
                     col.Item().PaddingTop(3).Text(document.CustomerName).FontSize(11);
-
-                    if (!string.IsNullOrEmpty(document.Address))
-                        col.Item().Text(document.Address).FontSize(11);
                 });
 
                 row.RelativeItem().AlignRight().Column(col =>
                 {
                     col.Item().Text($"Date: {document.Date:MMMM dd, yyyy}").FontSize(11);
-                    if (!string.IsNullOrEmpty(document.ReferenceNumber))
-                        col.Item().Text($"Reference: {document.ReferenceNumber}").FontSize(11);
                     col.Item().Text($"Status: {document.Status}").FontSize(11);
                 });
             });
@@ -115,7 +110,7 @@ public class PdfService : IPdfService
                 });
 
                 table.Cell().PaddingVertical(4).PaddingHorizontal(5)
-                    .Text(document.Notes ?? document.Title).FontSize(11);
+                    .Text(document.DocumentType.ToString()).FontSize(11);
                 table.Cell().PaddingVertical(4).AlignCenter()
                     .Text("1").FontSize(11);
                 table.Cell().PaddingVertical(4).AlignRight()
@@ -133,15 +128,6 @@ public class PdfService : IPdfService
                     text.Span($"{document.Amount:N2}").FontSize(14);
                 });
             });
-
-            if (!string.IsNullOrEmpty(document.Notes))
-            {
-                column.Item().PaddingTop(10).Column(col =>
-                {
-                    col.Item().Text("Notes:").SemiBold().FontSize(11);
-                    col.Item().Text(document.Notes).FontSize(10).FontColor(Colors.Grey.Darken1);
-                });
-            }
         });
     }
 

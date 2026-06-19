@@ -8,12 +8,12 @@ namespace DocLink.Controllers;
 public class DocumentController : Controller
 {
     private readonly IDocumentService _documentService;
-    private readonly IPdfService _pdfService;
+    private readonly ISmsService _smsService;
 
-    public DocumentController(IDocumentService documentService, IPdfService pdfService)
+    public DocumentController(IDocumentService documentService, ISmsService smsService)
     {
         _documentService = documentService;
-        _pdfService = pdfService;
+        _smsService = smsService;
     }
 
     [HttpGet]
@@ -35,8 +35,12 @@ public class DocumentController : Controller
 
         var document = await _documentService.CreateDocumentAsync(model);
 
+        var publicUrl = $"{Request.Scheme}://{Request.Host}/r/{document.PublicToken}";
+        var message = $"Your {document.DocumentType} is ready.\n\nDocLink\n{publicUrl}";
+
+        await _smsService.SendAsync(document.PhoneNumber, message);
+
         TempData["PublicToken"] = document.PublicToken;
-        TempData["Title"] = document.Title;
         TempData["DocumentNumber"] = document.DocumentNumber;
         TempData["CustomerName"] = document.CustomerName;
 
@@ -51,7 +55,6 @@ public class DocumentController : Controller
 
         ViewData["PublicUrl"] = $"{Request.Scheme}://{Request.Host}/r/{token}";
         ViewData["PdfUrl"] = $"{Request.Scheme}://{Request.Host}/r/{token}/pdf";
-        ViewData["Title"] = TempData["Title"];
         ViewData["DocumentNumber"] = TempData["DocumentNumber"];
         ViewData["CustomerName"] = TempData["CustomerName"];
 

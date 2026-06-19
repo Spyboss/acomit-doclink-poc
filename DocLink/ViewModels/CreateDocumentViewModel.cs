@@ -28,16 +28,4 @@ public class CreateDocumentViewModel
     [Required(ErrorMessage = "Date is required")]
     [DataType(DataType.Date)]
     public DateTime Date { get; set; } = DateTime.Today;
-
-    [Display(Name = "Address")]
-    [MaxLength(500)]
-    public string? Address { get; set; }
-
-    [Display(Name = "Notes")]
-    [MaxLength(2000)]
-    public string? Notes { get; set; }
-
-    [Display(Name = "Reference Number")]
-    [MaxLength(100)]
-    public string? ReferenceNumber { get; set; }
 }

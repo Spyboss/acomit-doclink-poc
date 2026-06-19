@@ -26,14 +26,11 @@ public class PublicController : Controller
 
         var viewModel = new PublicDocumentViewModel
         {
-            Title = document.Title,
+            DocumentType = document.DocumentType,
             DocumentNumber = document.DocumentNumber,
             CustomerName = document.CustomerName,
             Amount = document.Amount,
             Date = document.Date,
-            Address = document.Address,
-            Notes = document.Notes,
-            ReferenceNumber = document.ReferenceNumber,
             Status = document.Status,
             PublicToken = document.PublicToken
         };

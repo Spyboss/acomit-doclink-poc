@@ -9,13 +9,11 @@ public class DocumentService : IDocumentService
 {
     private readonly AppDbContext _db;
     private readonly ITokenService _tokenService;
-    private readonly ISmsService _smsService;
 
-    public DocumentService(AppDbContext db, ITokenService tokenService, ISmsService smsService)
+    public DocumentService(AppDbContext db, ITokenService tokenService)
     {
         _db = db;
         _tokenService = tokenService;
-        _smsService = smsService;
     }
 
     public async Task<Document> CreateDocumentAsync(CreateDocumentViewModel model)
@@ -23,16 +21,12 @@ public class DocumentService : IDocumentService
         var document = new Document
         {
             Id = Guid.NewGuid(),
-            Type = "Receipt",
-            Title = "Payment Receipt",
+            DocumentType = Models.DocumentType.Receipt,
             DocumentNumber = model.InvoiceNumber,
             CustomerName = model.CustomerName,
             PhoneNumber = model.PhoneNumber,
             Amount = model.Amount,
             Date = model.Date,
-            Address = model.Address,
-            Notes = model.Notes,
-            ReferenceNumber = model.ReferenceNumber,
             Status = "Created",
             PublicToken = _tokenService.GenerateToken(),
             CreatedAt = DateTime.UtcNow,
@@ -41,11 +35,6 @@ public class DocumentService : IDocumentService
 
         _db.Documents.Add(document);
         await _db.SaveChangesAsync();
-
-        var publicUrl = $"/r/{document.PublicToken}";
-        var message = $"Your {document.Title} is ready.\n\nDocLink\n{publicUrl}";
-
-        await _smsService.SendAsync(document.PhoneNumber, message);
 
         return document;
     }
