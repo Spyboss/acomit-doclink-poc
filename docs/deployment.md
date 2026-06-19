@@ -31,6 +31,10 @@ Set these in the Railway dashboard under your service's **Variables** tab:
 | `ASPNETCORE_ENVIRONMENT` | `Production` | Enables production error handling |
 | `ConnectionStrings__DefaultConnection` | `Host=...;Port=5432;Database=postgres;Username=...;Password=...;SSL Mode=Require;Trust Server Certificate=true;` | PostgreSQL connection string (use Supabase) |
 | `ASPNETCORE_URLS` | `http://0.0.0.0:${PORT}` | Bind to all interfaces on Railway-assigned port |
+| `WHATSAPP_ACCESS_TOKEN` | *(from Meta Developer dashboard)* | WhatsApp Cloud API access token |
+| `WHATSAPP_PHONE_NUMBER_ID` | *(from Meta Developer dashboard)* | WhatsApp Cloud API phone number ID |
+| `WHATSAPP_API_VERSION` | `v22.0` | Graph API version (optional, defaults to v22.0) |
+| `WHATSAPP_TEMPLATE_NAME` | `document_notification` | Approved template name for first-contact messages (optional, defaults to `hello_world`) |
 
 The `PORT` variable is automatically set by Railway.
 
